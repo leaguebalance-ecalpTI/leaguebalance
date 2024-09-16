@@ -1,9 +1,8 @@
 package nerdolas.podres.leaguebalance.repository;
 
-import nerdolas.podres.leaguebalance.model.jogador.Jogador;
+import nerdolas.podres.leaguebalance.model.jogador.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-public interface JogadorRepository extends JpaRepository<Jogador, Long> {
+public interface PlayerRepository extends JpaRepository<Player, Long> {
 
 }

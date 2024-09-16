@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  patrimonio:
+    image: postgres_patrimonio:v1
+    build: .
+    container_name: "patrimonio_db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=patrimonio
+    restart: always
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - patrimonio
+
+
+networks:
+  patrimonio:
+    driver: bridge
