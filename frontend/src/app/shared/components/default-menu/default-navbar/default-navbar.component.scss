@@ -1,0 +1,54 @@
+.navbar {
+  font-family: LoLFont, sans-serif !important;
+  background: linear-gradient(196deg, var(--dark-blue2) 0%, var(--dark-blue) 35%, var(--light-blue2) 100%);
+
+  .nome {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--gold2);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.4s ease;
+  }
+
+  &:hover::before {
+    width: 100%;
+    left: 0;
+    transform: translateX(0);
+  }
+}
+
+label {
+  color: var(--white-default);
+  transition: color 0.3s;
+  &:hover{
+    color: var(--gold2);
+  }
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--gold2);
+}
+
+.navbar-nav .nav-link.active::before {
+  width: 100%;
+  background-color: var(--gold2); }
+
+.icone {
+  transition: transform 0.5s ease;
+}
+
+.rotate-icon {
+  transform: rotate(180deg);
+}
