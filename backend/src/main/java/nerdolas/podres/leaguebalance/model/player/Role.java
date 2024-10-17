@@ -1,4 +1,4 @@
-package nerdolas.podres.leaguebalance.model.jogador;
+package nerdolas.podres.leaguebalance.model.player;
 
 public enum Role {
 

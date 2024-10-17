@@ -24,87 +24,86 @@ public class CadastroAutomatico implements ApplicationRunner {
 					3,
 					0,
 					1));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Gabriel",
-//					2,
-//					3,
-//					4,
-//					2,
-//					3));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Danilo",
-//					2,
-//					3,
-//					4,
-//					2,
-//					5));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Antonio",
-//					2,
-//					5,
-//					4,
-//					3,
-//					4));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Fomfom",
-//					4,
-//					5,
-//					4,
-//					2,
-//					4));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Felype",
-//					5,
-//					5,
-//					4,
-//					3,
-//					5));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Luis",
-//					2,
-//					5,
-//					4,
-//					4,
-//					4));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Breno",
-//					6,
-//					10,
-//					8,
-//					8,
-//					6));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Lucas",
-//					10,
-//					7,
-//					8,
-//					7,
-//					6));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Vitor",
-//					8,
-//					8,
-//					8,
-//					10,
-//					7));
-//
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Gustavo",
-//					7,
-//					6,
-//					6,
-//					6,
-//					10));
-//
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Gabriel",
+					2,
+					3,
+					4,
+					2,
+					3));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Danilo",
+					2,
+					3,
+					4,
+					2,
+					5));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Antonio",
+					2,
+					5,
+					4,
+					3,
+					4));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Fomfom",
+					4,
+					5,
+					4,
+					2,
+					4));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Felype",
+					5,
+					5,
+					4,
+					3,
+					5));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Luis",
+					2,
+					5,
+					4,
+					4,
+					4));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Breno",
+					6,
+					10,
+					8,
+					8,
+					6));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Lucas",
+					10,
+					7,
+					8,
+					7,
+					6));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Vitor",
+					8,
+					8,
+					8,
+					10,
+					7));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Gustavo",
+					7,
+					6,
+					6,
+					6,
+					10));
+
 			playerService.cadastrarJogador(new DadosJogadorDTO(
 					"Lemos",
 					6,
@@ -113,18 +112,24 @@ public class CadastroAutomatico implements ApplicationRunner {
 					7,
 					6));
 
-//			playerService.cadastrarJogador(new DadosJogadorDTO(
-//					"Mochila",
-//					10,
-//					5,
-//					6,
-//					5,
-//					7));
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Lemos",
+					6,
+					6,
+					8,
+					7,
+					6));
 
-
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Mochila",
+					10,
+					5,
+					6,
+					5,
+					7));
 
 		}catch (Exception e){
-			System.out.println(e.getMessage());
+			throw e;
 		}
 	}
 }

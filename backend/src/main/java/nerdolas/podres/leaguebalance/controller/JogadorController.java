@@ -13,8 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("jogadores")
 public class JogadorController {
 
-    @Autowired
-    JogadorService service;
+    final JogadorService service;
+
+    public JogadorController(JogadorService service) {
+        this.service = service;
+    }
 
     @PostMapping("cadastro")
     @Transactional

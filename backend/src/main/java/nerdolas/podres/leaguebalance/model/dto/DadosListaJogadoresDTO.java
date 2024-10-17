@@ -1,13 +1,13 @@
 package nerdolas.podres.leaguebalance.model.dto;
 
-import nerdolas.podres.leaguebalance.model.jogador.Jogador;
-import nerdolas.podres.leaguebalance.model.jogador.Role;
+import nerdolas.podres.leaguebalance.model.player.Player;
+import nerdolas.podres.leaguebalance.model.player.Role;
 
 public record DadosListaJogadoresDTO(
 
         String nome,
-        byte[] imageCardByte,
-        String imageCardType,
+//        byte[] imageCardByte,
+//        String imageCardType,
         int notaGeral,
         int notaJg,
         int notaTop,
@@ -16,17 +16,17 @@ public record DadosListaJogadoresDTO(
         int notaSup
 ) {
 
-    public DadosListaJogadoresDTO(Jogador jogador){
+    public DadosListaJogadoresDTO(Player player){
         this(
-                jogador.getNome(),
-                jogador.getJogadorImage().getImageCardByte(),
-                jogador.getJogadorImage().getType(),
-                jogador.getNotaGeral(),
-                jogador.getRoleJogadorComNota(Role.JG).getNota(),
-                jogador.getRoleJogadorComNota(Role.TOP).getNota(),
-                jogador.getRoleJogadorComNota(Role.MID).getNota(),
-                jogador.getRoleJogadorComNota(Role.ADC).getNota(),
-                jogador.getRoleJogadorComNota(Role.SUP).getNota()
+                player.getNome(),
+//                player.getJogadorImage().getImageCardByte(),
+//                player.getJogadorImage().getType(),
+                player.getTotalScore(),
+                player.getRoleJogadorComNota(Role.JG).getScore(),
+                player.getRoleJogadorComNota(Role.TOP).getScore(),
+                player.getRoleJogadorComNota(Role.MID).getScore(),
+                player.getRoleJogadorComNota(Role.ADC).getScore(),
+                player.getRoleJogadorComNota(Role.SUP).getScore()
         );
     }
 

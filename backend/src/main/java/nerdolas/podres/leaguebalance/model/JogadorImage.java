@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nerdolas.podres.leaguebalance.model.jogador.Jogador;
+import nerdolas.podres.leaguebalance.model.player.Player;
 
 @Entity
 @Getter
@@ -18,7 +18,7 @@ public class JogadorImage {
     Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    Jogador jogador;
+    Player player;
 
     String nome;
 

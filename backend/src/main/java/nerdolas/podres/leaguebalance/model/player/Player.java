@@ -1,11 +1,11 @@
-package nerdolas.podres.leaguebalance.model.jogador;
+package nerdolas.podres.leaguebalance.model.player;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nerdolas.podres.leaguebalance.model.JogadorImage;
 import nerdolas.podres.leaguebalance.model.dto.DadosJogadorDTO;
+import org.hibernate.annotations.Fetch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,42 +23,24 @@ public class Player {
     @Column(unique = true)
     private String nome;
 
-    private Integer notaGeral;
+    private Integer totalScore;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private JogadorImage jogadorImage = new JogadorImage();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "player_roles", joinColumns = @JoinColumn(name = "player_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<PlayerRole> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlayerRoles> roles = new ArrayList<>();
 
     @Transient
-    private PlayerRole roleEscolhida;
+    private PlayerRoles roleEscolhida;
 
     public Player(DadosJogadorDTO dados){
         this.nome = dados.nickname();
-        this.roles.add(new PlayerRole(Role.JG, dados.notaJg()));
-        this.roles.add(new PlayerRole(Role.MID, dados.notaTop()));
-        this.roles.add(new PlayerRole(Role.SUP, dados.notaMid()));
-        this.roles.add(new PlayerRole(Role.ADC, dados.notaAdc()));
-        this.roles.add(new PlayerRole(Role.TOP, dados.notaSup()));
 
-        this.notaGeral = dados.notaTop() + dados.notaJg() + dados.notaAdc() + dados.notaMid() + dados.notaSup();
+        this.totalScore = dados.notaTop() + dados.notaJg() + dados.notaAdc() + dados.notaMid() + dados.notaSup();
     }
 
-    public void setRoleEscolhida(Role role) {
-        for (PlayerRole playerRole : this.roles) {
-            if(playerRole.getRole().equals(role)){
-                this.roleEscolhida = playerRole;
-            }
-        }
-    }
-
-    public PlayerRole getRoleJogadorComNota(Role role){
-        for (PlayerRole playerRole : this.roles) {
-            if(playerRole.getRole().equals(role)){
-                return playerRole;
+    public PlayerRoles getRoleJogadorComNota(Role role){
+        for (PlayerRoles playerRoles : this.roles) {
+            if(playerRoles.getRole().equals(role)){
+                return playerRoles;
             }
         }
         return null;

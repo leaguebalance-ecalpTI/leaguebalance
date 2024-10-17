@@ -1,22 +1,22 @@
 version: "3.9"
 services:
   patrimonio:
-    image: postgres_patrimonio:v1
+    image: postgres_leaguebalance:v1
     build: .
-    container_name: "patrimonio_db"
+    container_name: "leaguebalance_db"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=patrimonio
+      - POSTGRES_DB=leaguebalance
     restart: always
 #    volumes:
 #      - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
-      - patrimonio
+      - leaguebalance
 
 
 networks:
-  patrimonio:
+  leaguebalance:
     driver: bridge

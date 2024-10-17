@@ -9,14 +9,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "player_role")
-public class PlayerRole {
+@Table(name = "player_roles")
+public class PlayerRoles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "role_name")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -25,7 +26,7 @@ public class PlayerRole {
 
     private int score;
 
-    public PlayerRole(Role role, int score) {
+    public PlayerRoles(Role role, int score) {
         this.role = role;
         this.score = score;
     }
