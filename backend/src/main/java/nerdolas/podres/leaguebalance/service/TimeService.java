@@ -33,7 +33,7 @@ public class TimeService {
         List<Player> playersList = new ArrayList<>();
 
         for (Long playerId : playersId) {
-            var player = repository.getReferenceById(playerId);
+            var player = repository.findById(playerId).orElseThrow(RuntimeException::new);
             playersList.add(player);
         }
 

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class JogadorController {
 
     final JogadorService service;
-
     public JogadorController(JogadorService service) {
         this.service = service;
     }

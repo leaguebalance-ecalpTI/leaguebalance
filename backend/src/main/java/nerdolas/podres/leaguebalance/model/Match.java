@@ -1,14 +1,13 @@
 package nerdolas.podres.leaguebalance.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import nerdolas.podres.leaguebalance.model.team.Team;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "match")
 public class Match {

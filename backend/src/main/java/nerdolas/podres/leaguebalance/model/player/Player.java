@@ -25,7 +25,7 @@ public class Player {
 
     private Integer totalScore;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlayerRoles> roles = new ArrayList<>();
 
     @Transient
