@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nerdolas.podres.leaguebalance.model.Match;
-import nerdolas.podres.leaguebalance.model.player.Player;
+import nerdolas.podres.leaguebalance.model.player.PlayerRoles;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -25,12 +24,12 @@ public class Team {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "team_player",
             joinColumns = @JoinColumn(name = "team_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    private List<Player> jogadores = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "player_roles_id"))
+    private List<PlayerRoles> jogadores = new ArrayList<>();
 
-    public void addPlayer(Player player){
+    public void addPlayerRole(PlayerRoles player){
         jogadores.add(player);
-        this.totalScore = this.totalScore + player.getRoleEscolhida().getScore();
+        if(player.getPlayer().getRoleEscolhida() != null)
+            this.totalScore = this.totalScore + player.getPlayer().getRoleEscolhida().getScore();
     }
-
 }

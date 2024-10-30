@@ -1,10 +1,14 @@
 package nerdolas.podres.leaguebalance.service;
 
+import nerdolas.podres.leaguebalance.dto.MatchDetailDTO;
+import nerdolas.podres.leaguebalance.dto.TeamDetailForMatchDTO;
+import nerdolas.podres.leaguebalance.model.Match;
 import nerdolas.podres.leaguebalance.model.team.Team;
 import nerdolas.podres.leaguebalance.model.player.Player;
 import nerdolas.podres.leaguebalance.model.player.Role;
 import nerdolas.podres.leaguebalance.model.player.PlayerRoles;
 import nerdolas.podres.leaguebalance.repository.JogadorRepository;
+import nerdolas.podres.leaguebalance.repository.MatchRepository;
 import nerdolas.podres.leaguebalance.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +19,21 @@ public class TimeService {
 
     private final JogadorRepository repository;
     private final TeamRepository teamRepository;
+    private final MatchRepository matchRepository;
     private final JogadorService jogadorService;
 
     public TimeService(JogadorRepository repository,
                        TeamRepository teamRepository,
+                       MatchRepository matchRepository,
                        JogadorService jogadorService) {
         this.repository = repository;
         this.teamRepository = teamRepository;
+        this.matchRepository = matchRepository;
         this.jogadorService = jogadorService;
     }
 
-    public Map<String, Team> gerarTimes(List<Long> playersId) {
+    public MatchDetailDTO gerarTimes(List<Long> playersId) {
+
 
         Team team1 = new Team();
         Team team2 = new Team();
@@ -37,12 +45,19 @@ public class TimeService {
             playersList.add(player);
         }
 
+        Map<String, Team> times = new HashMap<>();
+
+        int attempts = 0;
+
         while (true) {
+
+            if(attempts == 30){
+                throw new RuntimeException("30 attempts achieved");
+            }
 
             team1.setTotalScore(0);
             team2.setTotalScore(0);
             int subtracao = 0;
-            int tries = 0;
 
             List<Player> allPlayers = new ArrayList<>(playersList);
 
@@ -67,23 +82,37 @@ public class TimeService {
             }
 
             if (subtracao <= 1 && subtracao >= 0 && team1.getJogadores().size() == 5 && team2.getJogadores().size() == 5) {
-
                 teamRepository.save(team1);
                 teamRepository.save(team2);
-
-                Map<String, Team> times = new HashMap<>();
-
                 times.put("Time1", team1);
                 times.put("Time2", team2);
 
-                return times;
+                break;
             }
 
-            tries++;
+            attempts++;
             allPlayers.clear();
             team1.getJogadores().clear();
             team2.getJogadores().clear();
         }
+
+        Match match = new Match();
+
+        match.setTeamRedSide(times.get("Time1"));
+        match.setTeamBlueSide(times.get("Time2"));
+
+        matchRepository.save(match);
+
+        var playerNamesBlueSide = new ArrayList<String>();
+        var playerNamesRedSide = new ArrayList<String>();
+
+        times.get("Time1").getJogadores().forEach(p -> playerNamesBlueSide.add(p.getPlayer().getNome()));
+
+        times.get("Time2").getJogadores().forEach(p -> playerNamesRedSide.add(p.getPlayer().getNome()));
+
+        return new MatchDetailDTO(match,
+                new TeamDetailForMatchDTO(times.get("Time1"), playerNamesBlueSide),
+                new TeamDetailForMatchDTO(times.get("Time2"), playerNamesRedSide));
     }
 
     public void setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(List<Player> allPlayers, Player targetPlayer, Team team) {
@@ -102,7 +131,7 @@ public class TimeService {
                 if (role.getRole().equals(targetPlayer.getRoleEscolhida().getRole()) && diferenca < 3) {
                     iterator.remove();
                     this.jogadorService.setRoleEscolhida(player, targetPlayer.getRoleEscolhida().getRole());
-                    team.addPlayer(player);
+                    team.addPlayerRole(role);
                 }
             }
         }
@@ -114,7 +143,7 @@ public class TimeService {
                 if (playerRoles.getRole().equals(role)) {
                     this.jogadorService.setRoleEscolhida(player, role);
                     allPlayers.remove(player);
-                    team.addPlayer(player);
+                    team.addPlayerRole(playerRoles);
                     return player;
                 }
             }
@@ -128,7 +157,7 @@ public class TimeService {
                 if (playerRoles.getRole().equals(Role.JG) && playerRoles.getScore() >= 5) {
                     this.jogadorService.setRoleEscolhida(player, Role.JG);
                     allPlayers.remove(player);
-                    team.addPlayer(player);
+                    team.addPlayerRole(playerRoles);
                     return player;
                 }
             }

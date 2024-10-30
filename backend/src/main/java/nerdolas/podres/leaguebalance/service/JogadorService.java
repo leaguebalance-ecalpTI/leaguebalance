@@ -1,6 +1,7 @@
 package nerdolas.podres.leaguebalance.service;
 
 import jakarta.transaction.Transactional;
+import nerdolas.podres.leaguebalance.model.dto.DadosListaJogadoresDTO;
 import nerdolas.podres.leaguebalance.model.player.Player;
 import nerdolas.podres.leaguebalance.model.dto.DadosJogadorDTO;
 import nerdolas.podres.leaguebalance.model.player.PlayerRoles;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class JogadorService {
@@ -73,4 +75,7 @@ public class JogadorService {
 //        jogador.getJogadorImage().setPlayer(jogador);
     }
 
+    public List<DadosListaJogadoresDTO> playerList() {
+        return this.repository.findAll().stream().map(DadosListaJogadoresDTO::new).toList();
+    }
 }

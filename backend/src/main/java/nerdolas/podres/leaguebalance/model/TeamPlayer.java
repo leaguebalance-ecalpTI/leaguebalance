@@ -5,7 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nerdolas.podres.leaguebalance.model.player.Player;
+import nerdolas.podres.leaguebalance.model.player.PlayerRoles;
 import nerdolas.podres.leaguebalance.model.team.Team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "team_player")
@@ -25,5 +29,9 @@ public class TeamPlayer {
     @ManyToOne
     @JoinColumn(name = "player_id")
     private Player player;
+
+    @ManyToOne
+    @JoinColumn(name = "player")
+    private PlayerRoles roles;
 
 }

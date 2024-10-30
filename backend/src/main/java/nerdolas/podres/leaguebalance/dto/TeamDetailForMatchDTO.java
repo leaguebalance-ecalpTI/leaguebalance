@@ -6,10 +6,10 @@ import java.util.List;
 
 public record TeamDetailForMatchDTO(
         Long id,
-        List<String> players,
+        List<String> playerRole,
         Integer totalScore
 ) {
-    public TeamDetailForMatchDTO(Team team, List<String> playerNames) {
-        this(team.getId(), playerNames, team.getTotalScore());
+    public TeamDetailForMatchDTO(Team team, List<String> playerRole) {
+        this(team.getId(), playerRole, team.getTotalScore());
     }
 }
