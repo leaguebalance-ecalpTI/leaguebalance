@@ -24,4 +24,9 @@ public class Match {
     @JoinColumn(name = "team_blue_side_id")
     private Team teamBlueSide;
 
+    public Match(Team teamRedSide, Team teamBlueSide) {
+        this.teamRedSide = teamRedSide;
+        this.teamBlueSide = teamBlueSide;
+    }
+
 }

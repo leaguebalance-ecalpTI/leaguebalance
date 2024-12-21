@@ -1,0 +1,15 @@
+.logout {
+    font-size: medium;
+    color: #1e828b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.logout fa-icon {
+    margin-left: 10px;
+}
+
+.logout:hover {
+    color: red;
+}

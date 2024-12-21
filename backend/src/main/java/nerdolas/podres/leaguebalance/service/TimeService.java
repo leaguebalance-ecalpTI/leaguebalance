@@ -1,6 +1,8 @@
 package nerdolas.podres.leaguebalance.service;
 
+import com.merakianalytics.orianna.types.dto.summoner.Summoner;
 import nerdolas.podres.leaguebalance.dto.MatchDetailDTO;
+import nerdolas.podres.leaguebalance.dto.PlayerRoleDetailDTO;
 import nerdolas.podres.leaguebalance.dto.TeamDetailForMatchDTO;
 import nerdolas.podres.leaguebalance.model.Match;
 import nerdolas.podres.leaguebalance.model.team.Team;
@@ -34,16 +36,9 @@ public class TimeService {
 
     public MatchDetailDTO gerarTimes(List<Long> playersId) {
 
-
-        Team team1 = new Team();
-        Team team2 = new Team();
-
         List<Player> playersList = new ArrayList<>();
 
-        for (Long playerId : playersId) {
-            var player = repository.findById(playerId).orElseThrow(RuntimeException::new);
-            playersList.add(player);
-        }
+        playersId.forEach(pId -> playersList.add(repository.findById(pId).orElseThrow(RuntimeException::new)));
 
         Map<String, Team> times = new HashMap<>();
 
@@ -55,33 +50,21 @@ public class TimeService {
                 throw new RuntimeException("30 attempts achieved");
             }
 
-            team1.setTotalScore(0);
-            team2.setTotalScore(0);
-            int subtracao = 0;
+            Team team1 = new Team();
+            Team team2 = new Team();
 
-            List<Player> allPlayers = new ArrayList<>(playersList);
+            Integer scoreDifference = 0;
 
+            var allPlayers = new ArrayList<>(playersList);
             Collections.shuffle(allPlayers);
 
-            Player playerJungleRedSide = returnRandomJg(allPlayers, team1);
-            Player playerTopRedSide = returnRandomPlayer(allPlayers, Role.TOP, team1);
-            Player playerMidRedSide = returnRandomPlayer(allPlayers, Role.MID, team1);
-            Player playerAdcRedSide = returnRandomPlayer(allPlayers, Role.ADC, team1);
-            Player playerSupRedSide = returnRandomPlayer(allPlayers, Role.SUP, team1);
+            setPlayerInTeams(team1, team2, allPlayers);
 
-            setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerJungleRedSide, team2);
-            setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerTopRedSide, team2);
-            setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerMidRedSide, team2);
-            setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerAdcRedSide, team2);
-            setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerSupRedSide, team2);
+            scoreDifference = Math.abs(team1.getTotalScore() - team2.getTotalScore());
 
-            if (team1.getTotalScore() > team2.getTotalScore()) {
-                subtracao = team1.getTotalScore() - team2.getTotalScore();
-            } else {
-                subtracao = team2.getTotalScore() - team1.getTotalScore();
-            }
+            if (scoreDifference <= 1 && scoreDifference >= 0 &&
+                    team1.getJogadores().size() == 5 && team2.getJogadores().size() == 5) {
 
-            if (subtracao <= 1 && subtracao >= 0 && team1.getJogadores().size() == 5 && team2.getJogadores().size() == 5) {
                 teamRepository.save(team1);
                 teamRepository.save(team2);
                 times.put("Time1", team1);
@@ -91,28 +74,27 @@ public class TimeService {
             }
 
             attempts++;
-            allPlayers.clear();
-            team1.getJogadores().clear();
-            team2.getJogadores().clear();
         }
 
-        Match match = new Match();
-
-        match.setTeamRedSide(times.get("Time1"));
-        match.setTeamBlueSide(times.get("Time2"));
+        Match match = new Match(times.get("Time1"), times.get("Time2"));
 
         matchRepository.save(match);
 
-        var playerNamesBlueSide = new ArrayList<String>();
-        var playerNamesRedSide = new ArrayList<String>();
+        return new MatchDetailDTO(match);
+    }
 
-        times.get("Time1").getJogadores().forEach(p -> playerNamesBlueSide.add(p.getPlayer().getNome()));
+    public void setPlayerInTeams(Team team1, Team team2, List<Player> allPlayers){
+        Player playerJungleRedSide = returnRandomJg(allPlayers, team1);
+        Player playerTopRedSide = returnRandomPlayer(allPlayers, Role.TOP, team1);
+        Player playerMidRedSide = returnRandomPlayer(allPlayers, Role.MID, team1);
+        Player playerAdcRedSide = returnRandomPlayer(allPlayers, Role.ADC, team1);
+        Player playerSupRedSide = returnRandomPlayer(allPlayers, Role.SUP, team1);
 
-        times.get("Time2").getJogadores().forEach(p -> playerNamesRedSide.add(p.getPlayer().getNome()));
-
-        return new MatchDetailDTO(match,
-                new TeamDetailForMatchDTO(times.get("Time1"), playerNamesBlueSide),
-                new TeamDetailForMatchDTO(times.get("Time2"), playerNamesRedSide));
+        setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerJungleRedSide, team2);
+        setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerTopRedSide, team2);
+        setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerMidRedSide, team2);
+        setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerAdcRedSide, team2);
+        setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(allPlayers, playerSupRedSide, team2);
     }
 
     public void setPlayerInTeamTwoByRoleAndScoreOfPlayerInTeamOne(List<Player> allPlayers, Player targetPlayer, Team team) {

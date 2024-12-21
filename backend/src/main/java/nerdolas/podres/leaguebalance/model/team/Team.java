@@ -11,7 +11,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 public class Team {
 
@@ -31,5 +30,9 @@ public class Team {
         jogadores.add(player);
         if(player.getPlayer().getRoleEscolhida() != null)
             this.totalScore = this.totalScore + player.getPlayer().getRoleEscolhida().getScore();
+    }
+
+    public Team(){
+        this.totalScore = 0;
     }
 }

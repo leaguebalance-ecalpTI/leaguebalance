@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import {environment} from "../environments/environment";
-
-export const APP_ROUTES: Routes = [
-{path : 'publico' , loadChildren: () => import("./publico/publico.module").then((n) =>n.PublicoModule) },
+import {LayoutComponent} from "./core/layout/layout.component";
+import {PlayersComponent} from "./pages/players/players.component";
+export const routes: Routes = [
   {
-    path: environment.PREFIX_BASE,
-    loadChildren: () => import("./lol/lol.module").then((m) => m.LolModule),
-    // canActivate: [AuthGuard, PermissoesGuard, RedirecionarPrimeiroAcessoGuard],
-    // data: {permissoes: ['FUNCIONARIO', 'ADMIN']}
-  },
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {path: 'team/generation', component: PlayersComponent},
+    ]
+  }
 ];
