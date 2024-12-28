@@ -22,7 +22,7 @@ public class MatchController {
     @PostMapping("new/balanced-team")
     public ResponseEntity<MatchDetailDTO> newBalancedTeam(@RequestBody Lista lista){
         var sum = Summoner.named("Loiz#BR1").withRegion(Region.BRAZIL).get();
-        System.out.println(sum);
+        System.out.println(sum.exists());
         return ResponseEntity.ok(service.gerarTimes(lista.playersId()));
     }
 }

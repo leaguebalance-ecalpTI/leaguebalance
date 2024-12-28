@@ -128,6 +128,22 @@ public class CadastroAutomatico implements ApplicationRunner {
 					5,
 					7));
 
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"DaviZord",
+					5,
+					5,
+					7,
+					5,
+					5));
+
+			playerService.cadastrarJogador(new DadosJogadorDTO(
+					"Pedro",
+					5,
+					5,
+					5,
+					7,
+					5));
+
 		}catch (Exception e){
 			throw e;
 		}
